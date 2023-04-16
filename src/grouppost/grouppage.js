@@ -3,38 +3,46 @@ import './grouppage.css';
 import TextField from '@mui/material/TextField';
 import catpro from '../photo-1611915387288-fd8d2f5f928b.jpg';
 
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 
-function UserComment(){
+import SearchIcon from '@mui/icons-material/Search';
+
+function UserComment(props){
+
+    const {id_comment, timestemp, comment_des, name_create} = props;
+
+    console.log(id_comment);
     return(
         <div className='comment-con'>
             <div className='user-comment-con'>
                 <img src={catpro} alt='img-pro' className='img-pro-con'/>
-                <h3 className='name-comment'>KongATC</h3>
-                <p className='pro-create'>15/04/2022 22.30</p>
+                <h3 className='name-comment'>{name_create}</h3>
+                <p className='pro-create'>{timestemp}</p>
             </div>
             <div className='content-comment'>
-                dsaddadasdasdasdasdsadasdasdsadasdsadasdsadsasdsadasdasddsaddadasdasdasdasdsadasdassdasadasdsa
-                dsaddadasdasdasdasdsadasdas
-                dsaddadasdasdasdasdsadasdas
+                {comment_des}
             </div>
         </div>
     );
 }
 
-function PostItem(){
+function PostItem(props){
+
+    const {id_post, timestemp, postdes, name_createpost} = props;
+    console.log(id_post, ' ', timestemp)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const mock_comment=[
+        {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
+        {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
+    ]
 
     return(
         <div className='post-item'>
@@ -44,12 +52,10 @@ function PostItem(){
             <div className='user-post-con'>
                 <img src={catpro} alt='img-pro' className='img-pro'/>
                 <p className='pro-create'>Create By</p>
-                <h3 className='name-pro'>KongATC</h3>
+                <h3 className='name-pro'>{name_createpost}</h3>
             </div>
             <div className='content-post'>
-                dsaddadasdasdasdasdsadasdasdsadasdsadasdsadsasdsadasdasddsaddadasdasdasdasdsadasdassdasadasdsa
-                dsaddadasdasdasdasdsadasdas
-                dsaddadasdasdasdasdsadasdas
+                {postdes}
             </div>
             <div className='button-con'>
                 <button className='button-comment' onClick={handleOpen}>
@@ -77,9 +83,9 @@ function PostItem(){
                             <hr className='line2'/>
                         </div>
                         <div className='comment-box'>
-                            <UserComment/>
-                            <UserComment/>
-                            <UserComment/>
+                        {mock_comment.map((el_item)=>{
+                            return <UserComment {...el_item} key={el_item.id_comment}/>
+                        })}
                         </div>
                         
                         
@@ -106,10 +112,15 @@ function PostItem(){
 
 function Group() {
 
-    const [open2, setOpen2] = React.useState(true);
+    const [open2, setOpen2] = React.useState(false);
     const handleOpen2 = () => setOpen2(true);
     const handleClose2 = () => setOpen2(false);
 
+
+    const mock_post=[
+        {id_post:'1', timestemp:'15/04/2023 16.14', postdes:'Meow ดิ้นๆ', name_createpost:'KongATC'},
+        {id_post:'2', timestemp:'15/04/2023 16.15', postdes:'เเมวโครตน่ารัก', name_createpost:'Game'}
+    ]
 
   return (
     <div className='contrainer'>
@@ -123,13 +134,14 @@ function Group() {
                 <h2 style={{margin:'0'}}> + New Post</h2>
             </button>
             <div className='search-group'>
-                <h3 style={{margin:'0'}}>ic</h3>
+                <SearchIcon fontSize='large'/>
                 <TextField id="outlined-basic" label="Search" variant="outlined" style={{marginLeft:'15px'}} />
             </div>
         </div>
         <div className='post-contrainer'>
-            <PostItem/>
-            <PostItem/>
+            {mock_post.map((el_item)=>{
+                return <PostItem {...el_item} key={el_item.id_post}/>
+            })}
         </div>
 
         <div>
