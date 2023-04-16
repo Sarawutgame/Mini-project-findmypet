@@ -95,8 +95,7 @@ function Lostdetail() {
             </div>
           </div>
         </div>
-        
-          
+      
 
             <Map />
           
