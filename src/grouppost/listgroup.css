@@ -59,6 +59,7 @@ body{
 .search-group{
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .card-group{
@@ -109,4 +110,54 @@ body{
     border: 0px;
     background-color: #2d43c5;
     margin-right: 15px;
+}
+
+.modal-create-group{
+    position: absolute;
+    width: 50%;
+    height: auto;
+    top: 10%;
+    left: 25%;
+    transform: 'translate(-50%, -50%)';
+    width: 400;
+    background-color: white;
+    border-radius: 30px;
+    box-shadow: 24;
+    display: flex;
+    flex-direction: column;
+}
+
+.line2{
+    height:2px;
+    margin-right: 10%;
+    border-width:0;
+    color:gray;
+    background-color:gray;
+    margin-top: 0;
+}
+
+.form-in{
+    width: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.button-con2{
+    width: 90%;
+    margin-bottom: 30px;
+}
+
+.button-summit-newgroup{
+    width: 150px;
+    height: 55px;
+    border-radius: 30px;
+    border-color: #F9F9F9;
+    background-color: #64e0a2;
+    border: 0px;
+}
+
+.modal-head{
+    width: 100%;
+    margin-left: 5%;
+    margin-right: 5%;
 }
