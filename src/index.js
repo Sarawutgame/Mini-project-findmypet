@@ -4,7 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 // import GroupPage from './grouppost/listgroup';
-import Group from './grouppost/grouppage';
+// import Group from './grouppost/grouppage';
+import Lostdetail from './lostpet/lostdetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
