@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 // import GroupPage from './grouppost/listgroup';
 // import Group from './grouppost/grouppage';
 import Lostdetail from './lostpet/lostdetail';
+// import Group from './grouppost/grouppage';
+import Lostdetail from './lostpet/lostdetail';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
