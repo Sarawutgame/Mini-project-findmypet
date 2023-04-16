@@ -5,7 +5,8 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 // import GroupPage from './grouppost/listgroup';
 // import Group from './grouppost/grouppage';
-import Lostdetail from './lostpet/lostdetail';
+// import Lostdetail from './lostpet/lostdetail';
+import Lostpage from './lostpet/lostpage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -13,7 +14,8 @@ root.render(
     {/* <App /> */}
     {/* <GroupPage/> */}
     {/* <Group/> */}
-    <Lostdetail/>
+    {/* <Lostdetail/> */}
+    <Lostpage/>
   </React.StrictMode>
 );
 
