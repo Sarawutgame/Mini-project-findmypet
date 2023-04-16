@@ -2,7 +2,6 @@ import catim from '../images.jpg'
 import './grouppage.css';
 import TextField from '@mui/material/TextField';
 import catpro from '../photo-1611915387288-fd8d2f5f928b.jpg';
-
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -10,9 +9,12 @@ import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 
 import SearchIcon from '@mui/icons-material/Search';
+import {data} from "../data/data";
+import {doc, setDoc, updateDoc} from "firebase/firestore"
+import { db } from '../firebase'
 
 function UserComment(props){
-
+    
     const {id_comment, timestemp, comment_des, name_create} = props;
 
     console.log(id_comment);
@@ -31,18 +33,29 @@ function UserComment(props){
 }
 
 function PostItem(props){
-
-    const {id_post, timestemp, postdes, name_createpost} = props;
-    console.log(id_post, ' ', timestemp)
+    const {id, timestemp, postdes, name_createpost} = props;
+    console.log(id, ' ', timestemp)
 
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
+    function handleOpen() {setOpen(true)};
+    function handleClose() {setOpen(false)};
+    const [comment, setComment] = React.useState("")
+    
     const mock_comment=[
         {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
         {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
     ]
+
+    const submitform = async () => {
+        await updateDoc(doc(db, "mypet", "PhSEAJ2b6ne9K62cnBan"), {
+            timestemp:'15/04/2023 16.30',
+            comment_des: comment,
+            name_create: "USA",
+            test:'aaa'
+
+          });
+        handleClose()
+    }
 
     return(
         <div className='post-item'>
@@ -93,11 +106,11 @@ function PostItem(props){
                             <form>
                                 <div style={{marginBottom:'2%'}}>
                                     <h3 style={{margin:'0', marginLeft:'2%'}}>คอมเม้นกัน</h3>
-                                    <textarea placeholder="พิมพ์ได้เลย" rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
+                                    <textarea placeholder="พิมพ์ได้เลย" onChange={(e) => setComment(e.target.value)} rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
                                 </div>
                             </form>
                             <div className='button-con2'>
-                                <button className='button-summit' onClick={handleClose}>
+                                <button className='button-summit' onClick={submitform}>
                                     <h2 style={{margin: 0, fontWeight:300, color:'white'}}>Comment</h2>
                                 </button>
                             </div>
@@ -111,7 +124,9 @@ function PostItem(props){
 }
 
 function Group() {
-
+    let box = data();
+    console.log(box)
+    console.log("aaa")
     const [open2, setOpen2] = React.useState(false);
     const handleOpen2 = () => setOpen2(true);
     const handleClose2 = () => setOpen2(false);
@@ -139,8 +154,8 @@ function Group() {
             </div>
         </div>
         <div className='post-contrainer'>
-            {mock_post.map((el_item)=>{
-                return <PostItem {...el_item} key={el_item.id_post}/>
+            {box.map((el_item)=>{
+                return <PostItem {...el_item} key={el_item.id}/>
             })}
         </div>
 
