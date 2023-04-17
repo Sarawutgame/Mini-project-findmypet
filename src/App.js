@@ -6,16 +6,28 @@ import Home from './pages/Home';
 import Lostdetail from './lostpet/lostdetail';
 import Lostpage from './lostpet/lostpage'
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
+import catpro from './photo-1611915387288-fd8d2f5f928b.jpg'
 
 function App() {
   return (
     <Router>
       <div id="nav-bord">
-            <h1>Find My Pet</h1>
-            <div style={{width:'30%',display:'flex',justifyContent:'space-around',alignItems:'center'}}>
-                <NavLink end to="/">Home</NavLink>
-                <NavLink to="/group">น้องหาย</NavLink>
-                <NavLink to="/detail">detail</NavLink>
+            <div className='Header-name'>
+              <h1>Find My Pet</h1>
+            </div>
+
+            <div style={{display:'flex', alignItems:'center'}}>
+                <NavLink end to="/" style={{textDecoration:'none'}}><h3 className='nav-button'>Home</h3></NavLink>
+                <NavLink to="/group" style={{textDecoration:'none'}}><h3 className='nav-button'>น้องหาย</h3></NavLink>
+                <NavLink to="/detail" style={{textDecoration:'none'}}><h3 className='nav-button'>detail</h3></NavLink>
+            </div>
+
+            <div className='user-profile-contrainer'>
+              <div className='user-profile'>
+                  <img src={catpro} alt='img-pro' className='img-pro'/>
+                  <h3 className='name-profile'>KongATC</h3>
+              </div>
+              <h3 style={{margin:'0px', color:'#F45050', textDecoration:'underline 2px', fontSize:'16px', marginLeft:'3%'}}>LOGOUT</h3>
             </div>
         </div>
       <Routes>

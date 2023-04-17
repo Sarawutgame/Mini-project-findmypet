@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap');
+
 .App {
   text-align: center;
 }
@@ -41,9 +43,50 @@
   /* border: 2px solid red; */
   display: flex;
   justify-content: space-between;
-  background-color: aquamarine;
+  background-color: rgb(153, 255, 216);
   /* padding: 0.2rem calc((100vw - 1000px) / 2); */
   /* position:fixed; */
   width: 100%;
   z-index: 100;
+  box-shadow: 2px 2px 2px rgb(173, 173, 173);
+  position: sticky;
+  top:0%;
+}
+
+.Header-name{
+  margin-left: 5%;
+}
+
+.nav-button{
+  color:#2F0F5D;
+  font-size: 20px;
+  text-decoration: none;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+
+.user-profile{
+  margin-right: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.img-pro{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.name-profile{
+  margin-left: 10px;
+  color:black;
+}
+
+.user-profile-contrainer{
+  margin-right: 5%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
