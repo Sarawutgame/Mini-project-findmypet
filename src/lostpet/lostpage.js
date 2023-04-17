@@ -6,7 +6,7 @@ import {
   Marker,
   MarkerF,
 } from "@react-google-maps/api";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -18,12 +18,14 @@ import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import useOnclickOutside from "react-cool-onclickoutside";
-
+import { storage } from "../firebase";
+import { ref, uploadBytes, listAll, getDownloadURL,list } from 'firebase/storage';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
 import { ReactDOM } from "react";
+import { async } from "q";
 
 // const UserContext = createContext();
 
@@ -137,14 +139,15 @@ function AnimalItem(props) {
     lostdesc,
     lineID,
     comment_help,
-    position
+    position,
+    img
   } = props;
   console.log(id);
   let navigate = useNavigate();
   return (
     <div className="card-ani">
       <div className="box-img">
-        <img src={catim} className="card-pic" alt="card-im" />
+        <img src={img} className="card-pic" alt="card-im" />
       </div>
       <div className="info-text">
         <h3
@@ -203,7 +206,8 @@ function AnimalItem(props) {
                 lostdesc: lostdesc,
                 lineID: lineID,
                 commentH: comment_help,
-                position:position
+                position:position,
+                img,img
               },
             });
           }}
@@ -215,6 +219,8 @@ function AnimalItem(props) {
   );
 }
 
+
+
 function Lostpage() {
   let box = dataLost();
   const [open, setOpen] = React.useState(false);
@@ -224,6 +230,55 @@ function Lostpage() {
   }
   const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
   const [selected, setSelected] = useState(null);
+
+  //add pic
+  const [imageUpload,setImg] = useState(null);
+  const [newImageUrls,setImageUrls] = useState("");
+  let imgurl
+  const imagesListRef = ref(storage, "images/")
+  function createPost() {
+    console.log(imageUpload)
+    if(imageUpload == null) return;
+
+    const imageRef = ref(storage, `images/${imageUpload.name + uuidv4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        
+        console.log(snapshot)
+        getDownloadURL(snapshot.ref).then((url) => {
+            
+            // imgurl = url
+            // console.log(imgurl)
+            addDoc(collection(db, "lostpet"), {
+                ani_name: name,
+                ani_type: type,
+                tel: phone,
+                dateloss: date,
+                gender: gender,
+                desc: desc,
+                lostdesc: lostdesc,
+                lineID: line,
+                comment_help: [],
+                position:selected,
+                img:url,
+                //   lng:selected,
+              })
+              handleClose();
+        })
+            
+              
+        
+        
+        alert("Image Uploaded")
+        
+    })
+    // console.log(img_box)
+    // useEffect(()=>{
+    //     setImageUrls(imgurl)
+    //     console.log("img url 1st : ",newImageUrls)
+    // },[])
+  };
+  
+  
 
 
   const [name, setName] = React.useState("");
@@ -235,22 +290,25 @@ function Lostpage() {
   const [lostdesc, setLost] = React.useState("");
   const [line, setLine] = React.useState("");
 
-  const createPost = () => {
-    addDoc(collection(db, "lostpet"), {
-      ani_name: name,
-      ani_type: type,
-      tel: phone,
-      dateloss: date,
-      gender: gender,
-      desc: desc,
-      lostdesc: lostdesc,
-      lineID: line,
-      comment_help: [],
-      position:selected,
-      //   lng:selected,
-    });
-    handleClose();
-  };
+//   const createPost = () => {
+//     uploadImage()
+//     addDoc(collection(db, "lostpet"), {
+//       ani_name: name,
+//       ani_type: type,
+//       tel: phone,
+//       dateloss: date,
+//       gender: gender,
+//       desc: desc,
+//       lostdesc: lostdesc,
+//       lineID: line,
+//       comment_help: [],
+//       position:selected,
+//       img:imgurl,
+//       //   lng:selected,
+//     });
+//     handleClose();
+
+//   };
   // const ani_mock = [{ani_id:'1', ani_name:'ไอโบ้', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
   // {ani_id:'2', ani_name:'ไอโบ้2', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
   // {ani_id:'3', ani_name:'ไอโบ้3', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'}]
@@ -429,8 +487,8 @@ function Lostpage() {
                         รูปกลุ่ม
                       </h3>
                       <input
-                        type="text"
-                        placeholder="Img file"
+                        type="file"
+                        onChange={(event) => {setImg(event.target.files[0])}}
                         style={{
                           width: "50%",
                           height: "40px",
@@ -438,6 +496,7 @@ function Lostpage() {
                           padding: "2%",
                         }}
                       />
+                      <button onClick={createPost}>Upload Image</button>
                     </div>
                     <div style={{ marginBottom: "2%" }}>
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>

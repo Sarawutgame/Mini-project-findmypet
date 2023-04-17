@@ -55,17 +55,7 @@ function Lostdetail(props) {
   //map
   
   const [selected, setSelected] = useState(null);
-  const {
-    id,
-    ani_name,
-    ani_type,
-    tel,
-    dateloss,
-    gender,
-    desc,
-    lostdesc,
-    lineID,
-  } = props;
+  
   const box = location.state;
   const box_com = location.state.commentH;
   const po = location.state.position
@@ -105,7 +95,7 @@ function Lostdetail(props) {
         <h2 className="header-img-text">รูปของน้อง</h2>
       </div>
       <div className="img-contrainer">
-        <img src={catim} alt="img-show" className="img-detail" />
+        <img src={location.state.img} alt="img-show" className="img-detail" />
       </div>
       <div className="detail-box">
         <div className="header-box">
