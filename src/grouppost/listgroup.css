@@ -145,6 +145,7 @@ body{
 .button-con2{
     width: 90%;
     margin-bottom: 30px;
+    margin-left: 0;
 }
 
 .button-summit-newgroup{
@@ -160,4 +161,28 @@ body{
     width: 100%;
     margin-left: 5%;
     margin-right: 5%;
+}
+
+.upload-image{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.upload-image::-webkit-file-upload-button{
+    background: rgb(16, 44, 28);
+    border: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color:white;
+    border-radius: 20px;
+}
+
+.image-preview{
+    width: 90%;
+    max-height: 300px;
+    object-fit: contain;
+    background-color: black;
+    border-radius: 30px;
 }

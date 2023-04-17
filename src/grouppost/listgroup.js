@@ -3,6 +3,8 @@ import catim from '../images.jpg'
 import './listgroup.css';
 import TextField from '@mui/material/TextField';
 
+import { useState, useEffect } from 'react';
+
 import * as React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
@@ -35,6 +37,23 @@ function GroupPage() {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [images, setImages] = useState([]);
+    const [imageURLs, setImageURLs] = useState([]);
+
+    function onImageChange(e){
+        setImages([...e.target.files])
+    }
+
+    useEffect(() => {
+        if (images.length < 1) return;
+        const newImageUrls = [];
+        images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+        setImageURLs(newImageUrls);
+    }, [images]);
+    
+
+    console.log('images ', images)
 
     const mockdata = [
         {id:'1', name_group: 'Sweet Cat', descript:'เเมวๆ', name_create: 'KongATC'},
@@ -92,9 +111,12 @@ function GroupPage() {
                                 <h3 style={{margin:'0', marginLeft:'2%'}}>เกี่ยวกับกลุ่ม</h3>
                                 <textarea placeholder="พิมพ์ได้เลย" rows={2} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
                             </div>
-                            <div style={{marginBottom:'2%'}}>
+                            <div style={{marginBottom:'2%', display:'flex', flexDirection:'column'}}>
                                 <h3 style={{margin:'0', marginLeft:'2%'}}>รูปกลุ่ม</h3>
-                                <input type='text' placeholder="Img file" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
+                                {/* <input type='text' placeholder="Img file" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/> */}
+                                <input type='file' accept='image/*' onChange={onImageChange} className='upload-image'/>
+                                {imageURLs.map(imageSrc => <img src={imageSrc} alt='Pre View Image' className='image-preview'/>)}
+
                             </div>
                         </form>
                         <div className='button-con2'>

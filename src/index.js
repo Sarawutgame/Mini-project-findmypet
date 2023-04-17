@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-// import GroupPage from './grouppost/listgroup';
+import GroupPage from './grouppost/listgroup';
 // import Group from './grouppost/grouppage';
 // import Lostdetail from './lostpet/lostdetail';
 // import Group from './grouppost/grouppage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <>
-    <App />
-    {/* <GroupPage/> */}
+  <React.StrictMode>
+    {/* <App /> */}
+    <GroupPage/>
     {/* <Group/> */}
   </>
 );
