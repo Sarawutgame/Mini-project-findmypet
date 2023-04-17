@@ -1,7 +1,7 @@
 import './lostdetail.css'
 import React, { useState }  from 'react';
 import {GoogleMap, useLoadScript, Marker, MarkerF} from "@react-google-maps/api"
-
+import { useLocation } from 'react-router-dom';
 import catim from '../photo-1611915387288-fd8d2f5f928b.jpg'
 import {data} from "../data/data";
 
@@ -42,7 +42,10 @@ function Map(){
   );
 }
 
-function Lostdetail() {
+function Lostdetail(props) {
+  const location = useLocation();
+  const {id, ani_name, ani_type, tel, dateloss, gender, desc, lostdesc, lineID} = props;
+  console.log(location, "this is lostdetail")
   const {isLoaded} = useLoadScript({ 
     googleMapsApiKey: "AIzaSyBq4bTmnk639n0aFAsqZyNjh5MEVffRWXs"})
     if(!isLoaded) return <div>Loading . . .</div>
@@ -53,7 +56,7 @@ function Lostdetail() {
   return (
     <div className='contrainer'>
         <div className='header-name'>
-          <h1 style={{marginTop:'20px', marginBottom:'20px'}}>ชื่อน้อง : Name</h1>
+          <h1 style={{marginTop:'20px', marginBottom:'20px'}}>ชื่อน้อง : {location.state.name}</h1>
         </div>
         
         <div className='img-header'>
@@ -70,27 +73,27 @@ function Lostdetail() {
           <div className='detail-content'>
             <div className='contrain-info'>
               <div className='contrain-info1'>
-                <h4 className='text-detail'>ชื่อ : Name</h4>
-                <h4 className='text-detail'>สายพันธ์ุ : Name</h4>
-                <h4 className='text-detail'>เพศ : Male</h4>
-                <h4 className='text-detail'>วันที่หาย : 16/04/2023</h4>
-                <h4 className='text-detail'>เจ้าของ/ผู้ที่เเจ้ง : ก้อง ห้วยไร่</h4>
+                <h4 className='text-detail'>ชื่อ : {location.state.name}</h4>
+                <h4 className='text-detail'>สายพันธ์ุ : {location.state.type}</h4>
+                <h4 className='text-detail'>เพศ : {location.state.gender}</h4>
+                <h4 className='text-detail'>วันที่หาย : {location.state.dateloss}</h4>
+                <h4 className='text-detail'>เจ้าของ/ผู้ที่เเจ้ง : ????</h4>
               </div>
               <div className='contrain-info2'>
                 <h2 style={{margin:'0px'}}>ช่องทางการติอต่อ</h2>
-                <h4 className='text-detail'>Tel : 0811111111</h4>
-                <h4 className='text-detail'>Line : gameza123</h4>
+                <h4 className='text-detail'>Tel : {location.state.tel}</h4>
+                <h4 className='text-detail'>Line : {location.state.lineID}</h4>
                 <h4 className='text-detail'>Facebook : Mena Manae</h4>
               </div>
             </div>
             <div className='contrain-info3'>
               <div className='longdetail1'>
                 <h4 style={{margin:'0px', marginBottom:'5px'}}>ลักษณะเด่น :</h4>
-                มีสี................................................................
+                {location.state.desc}
               </div>
               <div className='longdetail1'> 
                 <h4 style={{margin:'0px', marginBottom:'5px'}}>รายละเอียดการหาย : </h4>
-                หายจากบ้านออกไปตอนประมาน 4 โมง
+                {location.state.lostdesc}
               </div>
             </div>
           </div>

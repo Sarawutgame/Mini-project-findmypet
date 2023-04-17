@@ -15,18 +15,18 @@ import { db } from '../firebase'
 
 function UserComment(props){
     
-    const {id, timestemp, comment_des, name_create} = props;
+    const {id, time_com, comment, name_com} = props;
 
     console.log("this is comment id", id);
     return(
         <div className='comment-con'>
             <div className='user-comment-con'>
                 <img src={catpro} alt='img-pro' className='img-pro-con'/>
-                <h3 className='name-comment'>{name_create}</h3>
-                <p className='pro-create'>{timestemp}</p>
+                <h3 className='name-comment'>{name_com}</h3>
+                <p className='pro-create'>{time_com}</p>
             </div>
             <div className='content-comment'>
-                {comment_des}
+                {comment}
             </div>
         </div>
     );
@@ -42,16 +42,14 @@ function PostItem(props){
     function handleClose() {setOpen(false)};
     const [comment, setComment] = React.useState("")
     const [mock_comment, setMock_comment] = React.useState([])
-    const [name_comment, setNameCom] = React.useState("")
-    const [time_com, setTimeCom] = React.useState("")
+    // const [name_comment, setNameCom] = React.useState("")
+    // const [time_com, setTimeCom] = React.useState("")
     
     const submitform = () => {
-        comment_des.push({comment})
+        comment_des.push({id: id,comment: comment, name_com:"KongAtc", time_com:"15/04/2023 16.30"})
 
         updateDoc(doc(db, "mypet", id), {
-            timestemp:'15/04/2023 16.30',
             comment_des: comment_des,
-            name_create: name_createpost,
 
           });
         //   const obj = {id: id,
@@ -144,8 +142,8 @@ function Group() {
 
     const [postDesc, setPostDesc] = React.useState("")
 
-    const createPost =  () => {
-        addDoc(collection(db, "mypet"), {
+    const createPost = async () => {
+        await addDoc(collection(db, "mypet"), {
             timestemp:'15/04/2023 16.30',
             postdes: postDesc,
             name_createpost: "KongATC",

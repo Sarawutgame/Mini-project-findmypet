@@ -23,3 +23,22 @@ export const data = () => {
   return pet;
 };
 
+export const dataLost = () => {
+    const [pet, setPet] = useState([]);
+    const [post, setPost] = useState([]);
+
+    const fetchPost = async () => {
+        await getDocs(collection(db, "lostpet"))
+            .then((querySnapshot) => {
+                const newData = querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id}))
+                setPet(newData)
+                console.log(pet, newData)
+            })
+    }
+
+    useEffect(() =>{
+        fetchPost();
+    },[]);
+    // console.log("daw",pet)
+  return pet;
+};
