@@ -4,6 +4,9 @@ import {GoogleMap, useLoadScript, Marker, MarkerF} from "@react-google-maps/api"
 import { useLocation } from 'react-router-dom';
 import catim from '../photo-1611915387288-fd8d2f5f928b.jpg'
 import {data} from "../data/data";
+import { v4 as uuidv4 } from 'uuid';
+import {addDoc, collection, doc, setDoc, updateDoc} from "firebase/firestore"
+import { db } from '../firebase'
 
 function Hi(){
   return(console.log('hi'));
@@ -44,15 +47,30 @@ function Map(){
 
 function Lostdetail(props) {
   const location = useLocation();
+  const [help, setHelp] = useState("")
   const {id, ani_name, ani_type, tel, dateloss, gender, desc, lostdesc, lineID} = props;
-  console.log(location, "this is lostdetail")
+  const box = location.state
+  const box_com = location.state.commentH
+
+  console.log(location, "this is lostdetail", box_com)
+
+  //add comment help
+  const submitComment = () => {
+    box_com.push({id_hint: uuidv4(), hint_des: help, create_hint_name:"KongAtc", datetime:"15/04/2023 16.30"})
+
+    updateDoc(doc(db, "lostpet", box.id), {
+      comment_help: box_com,
+
+      });
+    
+  }
+
   const {isLoaded} = useLoadScript({ 
     googleMapsApiKey: "AIzaSyBq4bTmnk639n0aFAsqZyNjh5MEVffRWXs"})
     if(!isLoaded) return <div>Loading . . .</div>
   const hint_mock = [
     {id_hint:'1', create_hint_name:'GamePoro', datetime:'16/0402023 22.20', hint_des:'อาจจะอยู่ที่เเถวสวน'},
     {id_hint:'2', create_hint_name:'GamePoro', datetime:'16/0402023 22.20', hint_des:'อาจจะอยู่ที่เเถวสวนหน้าซอย'}]
-
   return (
     <div className='contrainer'>
         <div className='header-name'>
@@ -108,18 +126,18 @@ function Lostdetail(props) {
           <hr/>
         </div>
         <div className='hint-box'>
-          {hint_mock.map((el_item) =>{
+          {box_com.map((el_item) =>{
             return <HintItem {...el_item} key={el_item.id_hint}/>
           })}
         </div>
         <form>
           <div style={{marginBottom:'2%', marginLeft:'5%'}}>
             <h3 style={{margin:'0', marginLeft:'2%'}}>เเจ้งเบาะเเสช่วยหาน้อง</h3>
-            <textarea placeholder="Ex. เห็นน้องอยู่เเนวหน้าซอย" rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
+            <textarea placeholder="Ex. เห็นน้องอยู่เเนวหน้าซอย" onChange={(e) => setHelp(e.target.value)} rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
           </div>
         </form>
         <div className='button-con2'>
-          <button className='button-summit' onClick={Hi}>
+          <button className='button-summit' onClick={submitComment}>
           <h2 style={{margin: 0, fontWeight:300, color:'white'}}>เเจ้ง</h2>
           </button>
         </div>
