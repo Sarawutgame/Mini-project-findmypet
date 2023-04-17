@@ -44,8 +44,7 @@ function PostItem(props) {
   }
   const [comment, setComment] = React.useState("");
   const [mock_comment, setMock_comment] = React.useState([]);
-  // const [name_comment, setNameCom] = React.useState("")
-  // const [time_com, setTimeCom] = React.useState("")
+
 
   const submitform = () => {
     comment_des.push({
@@ -59,7 +58,6 @@ function PostItem(props) {
       comment_des: comment_des,
     });
 
-    // handleClose();
   };
 
   console.log(id, mock_comment, "this is mock comment");

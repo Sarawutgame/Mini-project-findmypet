@@ -27,28 +27,6 @@ import usePlacesAutocomplete, {
 import { ReactDOM } from "react";
 import { async } from "q";
 
-// const UserContext = createContext();
-
-// const Map = () => {
-//   const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
-//   const [selected, setSelected] = useState(null);
-
-//   return (
-//     <>
-//       <div className="place-container">
-//         <PlacesAutocomplete setSelected={setSelected} />
-//       </div>
-//       <GoogleMap
-//         zoom={10}
-//         center={selected ? selected : center}
-//         mapContainerClassName="contrainer-map"
-//       >
-//         {/* <MarkerF position={center} /> */}
-//         {selected && <MarkerF position={selected} />}
-//       </GoogleMap>
-//     </>
-//   );
-// };
 
 const PlacesAutocomplete = ({ setSelected }) => {
   const {
@@ -115,7 +93,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
         placeholder="ตำแหน่งที่สัตว์เลี้ยงหาย"
         style={{marginTop:"5%", marginBottom:"5%"}}
       />
-      {/* We can use the "status" to decide whether we should display the dropdown or not */}
+
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
     </div>
   );
@@ -124,9 +102,7 @@ const PlacesAutocomplete = ({ setSelected }) => {
 function Hi() {
   return console.log("Hi");
 }
-// function Item_animal(){
-//     return();
-// }
+
 
 function AnimalItem(props) {
   const {
@@ -251,8 +227,6 @@ function Lostpage() {
         console.log(snapshot)
         getDownloadURL(snapshot.ref).then((url) => {
             
-            // imgurl = url
-            // console.log(imgurl)
             addDoc(collection(db, "lostpet"), {
                 ani_name: name,
                 ani_type: type,
@@ -303,7 +277,7 @@ function Lostpage() {
   return (
     <div className="contrainer">
       <div className="header-page">
-        <h1 style={{ marginBottom: "0px" }}>ประกาศน้องหายย !</h1>
+        <h1 style={{ marginBottom: "0px" }}>ประกาศน้องหายย !!!!!!!!!</h1>
       </div>
       <div className="header-create">
         <button className="create-button" onClick={handleOpen}>
