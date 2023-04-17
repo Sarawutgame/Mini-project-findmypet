@@ -39,11 +39,11 @@
   }
 }
 #nav-bord{
-  color: salmon;
+  color: #2F0F5D;
   /* border: 2px solid red; */
   display: flex;
   justify-content: space-between;
-  background-color: rgb(153, 255, 216);
+  background-color: #ABF1C0;
   /* padding: 0.2rem calc((100vw - 1000px) / 2); */
   /* position:fixed; */
   width: 100%;

@@ -63,7 +63,7 @@ function CardGroup(props) {
           whiteSpace: "nowrap",
         }}
       >
-        {name_create}
+        Created by : {name_create}
       </h4>
       <div className="button-contrainer">
         <button
@@ -125,7 +125,7 @@ function GroupPage() {
               });
               handleClose();
         })
-        alert("Image Uploaded")
+        alert("Complete")
         
     })
   };

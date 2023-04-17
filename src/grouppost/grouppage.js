@@ -59,7 +59,7 @@ function PostItem(props) {
       comment_des: comment_des,
     });
 
-    handleClose();
+    // handleClose();
   };
 
   console.log(id, mock_comment, "this is mock comment");
@@ -179,7 +179,7 @@ function Group() {
           });
           handleClose2();
       });
-      alert("Image Uploaded");
+      alert("Complete");
     });
   }
 //   const createPost = async () => {
@@ -201,7 +201,7 @@ function Group() {
     <div className="contrainer">
       <div className="head-contrainer">
         <p style={{ color: "gray", margin: "0" }}>Group Name:</p>
-        <h1 style={{ margin: "0" }}>Cute Cat</h1>
+        <h1 style={{ margin: "0" }}>อวดแมว</h1>
       </div>
       <hr className="line"></hr>
       <div className="group-post-tool">

@@ -112,7 +112,8 @@ const PlacesAutocomplete = ({ setSelected }) => {
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="ตำแหน่งที่สัตว์เลี้ยงหาย"
+        style={{marginTop:"5%", marginBottom:"5%"}}
       />
       {/* We can use the "status" to decide whether we should display the dropdown or not */}
       {status === "OK" && <ul>{renderSuggestions()}</ul>}
@@ -140,13 +141,15 @@ function AnimalItem(props) {
     lineID,
     comment_help,
     position,
-    img
+    img,
+    owner,
+    face
   } = props;
   console.log(id);
   let navigate = useNavigate();
   return (
     <div className="card-ani">
-      <div className="box-img">
+      <div className="box-img" style={{width:"400px"}}>
         <img src={img} className="card-pic" alt="card-im" />
       </div>
       <div className="info-text">
@@ -207,7 +210,9 @@ function AnimalItem(props) {
                 lineID: lineID,
                 commentH: comment_help,
                 position:position,
-                img,img
+                img:img,
+                owner:owner,
+                face:face
               },
             });
           }}
@@ -260,6 +265,8 @@ function Lostpage() {
                 comment_help: [],
                 position:selected,
                 img:url,
+                owner:owner,
+                face:face
                 //   lng:selected,
               })
               handleClose();
@@ -268,7 +275,7 @@ function Lostpage() {
               
         
         
-        alert("Image Uploaded")
+        alert("Complete")
         
     })
   };
@@ -284,29 +291,10 @@ function Lostpage() {
   const [date, setDate] = React.useState("");
   const [lostdesc, setLost] = React.useState("");
   const [line, setLine] = React.useState("");
+  const [owner, setOwner] = useState("");
+  const [face, setFace] = useState("");
 
-//   const createPost = () => {
-//     uploadImage()
-//     addDoc(collection(db, "lostpet"), {
-//       ani_name: name,
-//       ani_type: type,
-//       tel: phone,
-//       dateloss: date,
-//       gender: gender,
-//       desc: desc,
-//       lostdesc: lostdesc,
-//       lineID: line,
-//       comment_help: [],
-//       position:selected,
-//       img:imgurl,
-//       //   lng:selected,
-//     });
-//     handleClose();
 
-//   };
-  // const ani_mock = [{ani_id:'1', ani_name:'ไอโบ้', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
-  // {ani_id:'2', ani_name:'ไอโบ้2', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
-  // {ani_id:'3', ani_name:'ไอโบ้3', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'}]
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: "AIzaSyBq4bTmnk639n0aFAsqZyNjh5MEVffRWXs",
     libraries: ["places"],
@@ -391,7 +379,7 @@ function Lostpage() {
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>เพศ</h3>
                       <input
                         type="text"
-                        placeholder="Ex. หมามะพร้าว"
+                        placeholder="Ex. เพศผู้"
                         onChange={(e) => setGender(e.target.value)}
                         style={{
                           width: "50%",
@@ -449,11 +437,26 @@ function Lostpage() {
                     </div>
                     <div style={{ marginBottom: "2%" }}>
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>
+                        ชื่อเจ้าของ/ผู้ที่แจ้ง
+                      </h3>
+                      <textarea
+                        placeholder="Ex.หายตอนไหน เเล้วตอนหลุดน้องมีอาการเป็นอย่างไร"
+                        onChange={(e) => setOwner(e.target.value)}
+                        rows={2}
+                        style={{
+                          width: "90%",
+                          borderRadius: "20px",
+                          padding: "2%",
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginBottom: "2%" }}>
+                      <h3 style={{ margin: "0", marginLeft: "2%" }}>
                         เบอร์ที่สามารถติอต่อได้
                       </h3>
                       <input
                         type="text"
-                        placeholder="Ex. Date"
+                        placeholder="Ex. 098xxxxxxx"
                         onChange={(e) => setPhone(e.target.value)}
                         style={{
                           width: "50%",
@@ -467,11 +470,26 @@ function Lostpage() {
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>LineID</h3>
                       <input
                         type="text"
-                        placeholder="Ex. Date"
+                        placeholder="Ex. Gameporo"
                         onChange={(e) => setLine(e.target.value)}
                         style={{
                           width: "50%",
                           height: "40px",
+                          borderRadius: "20px",
+                          padding: "2%",
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginBottom: "2%" }}>
+                      <h3 style={{ margin: "0", marginLeft: "2%" }}>
+                        Facebook
+                      </h3>
+                      <textarea
+                        placeholder="Ex.หายตอนไหน เเล้วตอนหลุดน้องมีอาการเป็นอย่างไร"
+                        onChange={(e) => setFace(e.target.value)}
+                        rows={2}
+                        style={{
+                          width: "90%",
                           borderRadius: "20px",
                           padding: "2%",
                         }}
@@ -484,14 +502,8 @@ function Lostpage() {
                       <input
                         type="file"
                         onChange={(event) => {setImg(event.target.files[0])}}
-                        style={{
-                          width: "50%",
-                          height: "40px",
-                          borderRadius: "20px",
-                          padding: "2%",
-                        }}
+                        className="upload-image"
                       />
-                      <button onClick={createPost}>Upload Image</button>
                     </div>
                     <div style={{ marginBottom: "2%" }}>
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>

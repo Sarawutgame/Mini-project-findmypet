@@ -111,7 +111,7 @@ body{
 }
 
 .hint-contrainer{
-    background-color: rgb(239, 222, 255);
+    /* background-color: rgb(239, 222, 255); */
     width: 90%;
     margin-left: 5%;
     margin-top: 20px;
@@ -182,5 +182,6 @@ body{
     border-color: #F9F9F9;
     background-color: #77c054;
     border: 0px;
+    margin-left: 5%;
 }
 

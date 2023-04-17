@@ -70,6 +70,7 @@ function Lostdetail(props) {
       create_hint_name: "KongAtc",
       datetime: "15/04/2023 16.30",
     });
+    setHelp("")
 
     updateDoc(doc(db, "lostpet", box.id), {
       comment_help: box_com,
@@ -111,13 +112,13 @@ function Lostdetail(props) {
               <h4 className="text-detail">
                 วันที่หาย : {location.state.dateloss}
               </h4>
-              <h4 className="text-detail">เจ้าของ/ผู้ที่เเจ้ง : ????</h4>
+              <h4 className="text-detail">เจ้าของ/ผู้ที่เเจ้ง : {location.state.owner}</h4>
             </div>
             <div className="contrain-info2">
               <h2 style={{ margin: "0px" }}>ช่องทางการติอต่อ</h2>
               <h4 className="text-detail">Tel : {location.state.tel}</h4>
               <h4 className="text-detail">Line : {location.state.lineID}</h4>
-              <h4 className="text-detail">Facebook : Mena Manae</h4>
+              <h4 className="text-detail">Facebook : {location.state.face}</h4>
             </div>
           </div>
           <div className="contrain-info3">
@@ -155,7 +156,8 @@ function Lostdetail(props) {
         })}
       </div>
       <form>
-        <div style={{ marginBottom: "2%", marginLeft: "5%" }}>
+        <div style={{ marginBottom: "2%", marginLeft: "5%", marginTop:'2%' }}>
+          
           <h3 style={{ margin: "0", marginLeft: "2%" }}>
             เเจ้งเบาะเเสช่วยหาน้อง
           </h3>

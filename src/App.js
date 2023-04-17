@@ -19,7 +19,6 @@ function App() {
 
             <div style={{display:'flex', alignItems:'center'}}>
                 <NavLink end to="/" style={{textDecoration:'none'}}><h3 className='nav-button'>Home</h3></NavLink>
-                <NavLink to="/post" style={{textDecoration:'none'}}><h3 className='nav-button'>น้องหาย</h3></NavLink>
                 <NavLink to="/group" style={{textDecoration:'none'}}><h3 className='nav-button'>Group</h3></NavLink>
         
 
