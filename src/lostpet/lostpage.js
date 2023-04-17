@@ -271,11 +271,6 @@ function Lostpage() {
         alert("Image Uploaded")
         
     })
-    // console.log(img_box)
-    // useEffect(()=>{
-    //     setImageUrls(imgurl)
-    //     console.log("img url 1st : ",newImageUrls)
-    // },[])
   };
   
   

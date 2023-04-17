@@ -17,15 +17,17 @@ import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from "react-router-dom";
+import { storage } from "../firebase";
+import { ref, uploadBytes, listAll, getDownloadURL,list } from 'firebase/storage';
 
 function CardGroup(props) {
-  const { id, name_group, descript, name_create } = props;
+  const { id, name_group, descript, name_create,img } = props;
   let navigate = useNavigate();
-  console.log(id);
+  console.log(img);
   return (
     <div className="card-g">
       <div className="box-img">
-        <img src={catim} className="card-pic" alt="card-im" />
+        <img src={img} className="card-pic" alt="card-im" />
       </div>
       <h3
         style={{
@@ -98,24 +100,44 @@ function GroupPage() {
   // const [name, setName] = useState('');
   const [desc, setDesc] = useState("");
   const [group, setGroup] = useState("");
+  //add pic
+  const [imageUpload,setImg] = useState(null);
+  const [newImageUrls,setImageUrls] = useState("");
+  let imgurl
+  const imagesListRef = ref(storage, "images/")
+  function createGroup() {
+    console.log(imageUpload)
+    if(imageUpload == null) return;
 
-  const createGroup = async () => {
-    await addDoc(collection(db, "grouppet"), {
-      name_group: group,
-      descript: desc,
-      name_create: "KongATC",
-    });
-    handleClose();
+    const imageRef = ref(storage, `images/${imageUpload.name + uuidv4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        
+        console.log(snapshot)
+        getDownloadURL(snapshot.ref).then((url) => {
+            
+            // imgurl = url
+            // console.log(imgurl)
+            addDoc(collection(db, "grouppet"), {
+                name_group: group,
+                descript: desc,
+                name_create: "KongATC",
+                img:url
+              });
+              handleClose();
+        })
+        alert("Image Uploaded")
+        
+    })
   };
 
-  useEffect(() => {
-    if (images.length < 1) return;
-    const newImageUrls = [];
-    images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
-    setImageURLs(newImageUrls);
-  }, [images]);
+//   useEffect(() => {
+//     if (images.length < 1) return;
+//     const newImageUrls = [];
+//     images.forEach((image) => newImageUrls.push(URL.createObjectURL(image)));
+//     setImageURLs(newImageUrls);
+//   }, [images]);
 
-  console.log("images ", images);
+//   console.log("images ", images);
 
   // const mockdata = [
   //     {id:'1', name_group: 'Sweet Cat', descript:'เเมวๆ', name_create: 'KongATC'},
@@ -213,17 +235,9 @@ function GroupPage() {
                     {/* <input type='text' placeholder="Img file" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/> */}
                     <input
                       type="file"
-                      accept="image/*"
-                      onChange={onImageChange}
+                      onChange={(event) => {setImg(event.target.files[0])}}
                       className="upload-image"
                     />
-                    {imageURLs.map((imageSrc) => (
-                      <img
-                        src={imageSrc}
-                        alt="Pre View Image"
-                        className="image-preview"
-                      />
-                    ))}
                   </div>
                 </form>
                 <div className="button-con2">
