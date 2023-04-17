@@ -7,7 +7,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import { v4 as uuidv4 } from 'uuid';
+
 import SearchIcon from '@mui/icons-material/Search';
 import {data} from "../data/data";
 import {addDoc, collection, doc, setDoc, updateDoc} from "firebase/firestore"
@@ -46,7 +46,7 @@ function PostItem(props){
     // const [time_com, setTimeCom] = React.useState("")
     
     const submitform = () => {
-        comment_des.push({id: uuidv4(),comment: comment, name_com:"KongAtc", time_com:"15/04/2023 16.30"})
+        comment_des.push({id: id,comment: comment, name_com:"KongAtc", time_com:"15/04/2023 16.30"})
 
         updateDoc(doc(db, "mypet", id), {
             comment_des: comment_des,

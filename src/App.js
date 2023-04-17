@@ -21,6 +21,8 @@ function App() {
                 <NavLink end to="/" style={{textDecoration:'none'}}><h3 className='nav-button'>Home</h3></NavLink>
                 <NavLink to="/post" style={{textDecoration:'none'}}><h3 className='nav-button'>น้องหาย</h3></NavLink>
                 <NavLink to="/group" style={{textDecoration:'none'}}><h3 className='nav-button'>Group</h3></NavLink>
+        
+
             </div>
 
             <div className='user-profile-contrainer'>
@@ -35,6 +37,7 @@ function App() {
         <Route path="/" element={<Lostpage />}/>
         <Route path="/post" element={<Group />}/>
         <Route path="/group" element={<Listgroup />}/>
+        <Route path="/detail" element={<Lostdetail />}/>
       </Routes>
     </Router>
   );
