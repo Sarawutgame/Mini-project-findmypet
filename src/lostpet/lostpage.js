@@ -7,7 +7,9 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import { useNavigate } from 'react-router-dom';
-
+import {data} from "../data/data";
+import {addDoc, collection, doc, setDoc, updateDoc} from "firebase/firestore"
+import { db } from '../firebase'
 function Hi(){
     return(console.log('Hi'));
 }
@@ -42,9 +44,27 @@ function Lostpage() {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    function handleClose(){
+        setOpen(false);
+    }
 
+    const [name, setName] = React.useState("")
+    const [type, setType] = React.useState("")
+    const [phone, setPhone] = React.useState("")
+    const [gender, setGender] = React.useState("")
+    const [desc, setDesc] = React.useState("")
+    const [date, setDate] = React.useState("")
 
+    const createPost =  () => {
+        addDoc(collection(db, "lostpet"), {
+            ani_name:name, 
+            ani_type:type, 
+            tel:phone, 
+            dateloss:date
+          });
+        handleClose();
+        
+    }
     const ani_mock = [{ani_id:'1', ani_name:'ไอโบ้', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
     {ani_id:'2', ani_name:'ไอโบ้2', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
     {ani_id:'3', ani_name:'ไอโบ้3', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'}]
@@ -89,23 +109,23 @@ function Lostpage() {
                                 <div className='input-lost'>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>ชื่อน้อง</h3>
-                                        <input type='text' placeholder="Ex. ไอโบ้" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
+                                        <input type='text' placeholder="Ex. ไอโบ้" onChangeText={(newname) => {setName(newname);}} style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
                                     </div>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>สายพันธ์ุ</h3>
-                                        <input type='text' placeholder="Ex. หมามะพร้าว" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
+                                        <input type='text' placeholder="Ex. หมามะพร้าว" onChangeText={(newtype) => {setType(newtype);}} style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
                                     </div>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>เพศ</h3>
-                                        <input type='text' placeholder="Ex. หมามะพร้าว" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
+                                        <input type='text' placeholder="Ex. หมามะพร้าว" onChangeText={(newtext) => {setGender(newtext);}} style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
                                     </div>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>วันที่หาย</h3>
-                                        <input type='date' placeholder="Ex. Date" style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
+                                        <input type='date' placeholder="Ex. Date" onChangeText={(newtext) => {setDate(newtext);}} style={{width:'50%', height:'40px', borderRadius:'20px',padding:'2%'}}/>
                                     </div>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>ลักษณะของน้อง</h3>
-                                        <textarea placeholder="Ex. สีอะไร มีบอกคอไหม" rows={2} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
+                                        <textarea placeholder="Ex. สีอะไร มีบอกคอไหม" onChangeText={(newtext) => {setDesc(newtext);}} rows={2} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
                                     </div>
                                     <div style={{marginBottom:'2%'}}>
                                         <h3 style={{margin:'0', marginLeft:'2%'}}>รายละเอียดการหาย</h3>
@@ -126,7 +146,7 @@ function Lostpage() {
                                 </div>
                             </form>
                             <div className='button-con2'>
-                                <button className='button-summit-newgroup' onClick={handleClose}>
+                                <button className='button-summit-newgroup' onClick={createPost}>
                                     <h2 style={{margin: 0, fontWeight:300, color:'white'}}>เเจ้งหาย !</h2>
                                 </button>
                             </div>

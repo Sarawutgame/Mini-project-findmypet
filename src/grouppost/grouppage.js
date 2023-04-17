@@ -15,9 +15,9 @@ import { db } from '../firebase'
 
 function UserComment(props){
     
-    const {id_comment, timestemp, comment_des, name_create} = props;
+    const {id, timestemp, comment_des, name_create} = props;
 
-    console.log(id_comment);
+    console.log("this is comment id", id);
     return(
         <div className='comment-con'>
             <div className='user-comment-con'>
@@ -33,30 +33,40 @@ function UserComment(props){
 }
 
 function PostItem(props){
-    let box = data();
-    const {id, timestemp, postdes, name_createpost} = props;
-    console.log(id, ' ', timestemp)
+    
+    const {id, timestemp, postdes, name_createpost, comment_des} = props;
+    console.log(id, ' ', timestemp, comment_des)
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     function handleClose() {setOpen(false)};
     const [comment, setComment] = React.useState("")
+    const [mock_comment, setMock_comment] = React.useState([])
+    const [name_comment, setNameCom] = React.useState("")
+    const [time_com, setTimeCom] = React.useState("")
     
+    const submitform = () => {
+        comment_des.push({comment})
+
+        updateDoc(doc(db, "mypet", id), {
+            timestemp:'15/04/2023 16.30',
+            comment_des: comment_des,
+            name_create: name_createpost,
+
+          });
+        //   const obj = {id: id,
+        //     timestemp:'15/04/2023 16.30',
+        //     comment_des: comment,
+        //     name_create: name_createpost,}
+        //     const x = Object.values(obj);
+        //     setMock_comment(obj);
+        handleClose()
+    }
     // const mock_comment=[
     //     {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
     //     {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
     // ]
-
-    const submitform = async () => {
-        await updateDoc(doc(db, "mypet", id), {
-            timestemp:'15/04/2023 16.30',
-            comment_des: comment,
-            name_create: name_createpost,
-
-          });
-        handleClose()
-    }
-
+    console.log(id,mock_comment, "this is mock comment")
     return(
         <div className='post-item'>
             <div className='img-contrainer'>
@@ -96,7 +106,7 @@ function PostItem(props){
                             <hr className='line2'/>
                         </div>
                         <div className='comment-box'>
-                        {box.map((el_item)=>{
+                        {comment_des.map((el_item)=>{
                             return <UserComment {...el_item} key={el_item.id}/>
                         })}
                         </div>
@@ -139,16 +149,17 @@ function Group() {
             timestemp:'15/04/2023 16.30',
             postdes: postDesc,
             name_createpost: "KongATC",
+            comment_des: []
 
           });
           handleClose2()
         
     }
 
-    const mock_post=[
-        {id_post:'1', timestemp:'15/04/2023 16.14', postdes:'Meow ดิ้นๆ', name_createpost:'KongATC'},
-        {id_post:'2', timestemp:'15/04/2023 16.15', postdes:'เเมวโครตน่ารัก', name_createpost:'Game'}
-    ]
+    // const mock_post=[
+    //     {id_post:'1', timestemp:'15/04/2023 16.14', postdes:'Meow ดิ้นๆ', name_createpost:'KongATC'},
+    //     {id_post:'2', timestemp:'15/04/2023 16.15', postdes:'เเมวโครตน่ารัก', name_createpost:'Game'}
+    // ]
 
   return (
     <div className='contrainer'>
