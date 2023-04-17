@@ -32,23 +32,6 @@ function HintItem(props) {
   );
 }
 
-// function Map() {
-//   const center = { lat: 44, lng: -80 };
-//   const [selected, setSelected] = useState(null);
-
-//   return (
-//     <>
-//       <GoogleMap
-//         zoom={10}
-//         center={center}
-//         mapContainerClassName="contrainer-map"
-//       >
-//         <MarkerF position={center} />
-//       </GoogleMap>
-//     </>
-//   );
-// }
-
 function Lostdetail(props) {
   const location = useLocation();
   const [help, setHelp] = useState("");
