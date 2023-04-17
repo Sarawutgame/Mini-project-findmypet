@@ -7,7 +7,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-
+import { v4 as uuidv4 } from 'uuid';
 import SearchIcon from '@mui/icons-material/Search';
 import {data} from "../data/data";
 import {addDoc, collection, doc, setDoc, updateDoc} from "firebase/firestore"
@@ -46,24 +46,16 @@ function PostItem(props){
     // const [time_com, setTimeCom] = React.useState("")
     
     const submitform = () => {
-        comment_des.push({id: id,comment: comment, name_com:"KongAtc", time_com:"15/04/2023 16.30"})
+        comment_des.push({id: uuidv4(),comment: comment, name_com:"KongAtc", time_com:"15/04/2023 16.30"})
 
         updateDoc(doc(db, "mypet", id), {
             comment_des: comment_des,
 
           });
-        //   const obj = {id: id,
-        //     timestemp:'15/04/2023 16.30',
-        //     comment_des: comment,
-        //     name_create: name_createpost,}
-        //     const x = Object.values(obj);
-        //     setMock_comment(obj);
+        
         handleClose()
     }
-    // const mock_comment=[
-    //     {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
-    //     {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
-    // ]
+    
     console.log(id,mock_comment, "this is mock comment")
     return(
         <div className='post-item'>

@@ -1,6 +1,12 @@
 import "./lostpage.css";
 import catim from "../photo-1611915387288-fd8d2f5f928b.jpg";
-
+import {
+  GoogleMap,
+  useLoadScript,
+  Marker,
+  MarkerF,
+} from "@react-google-maps/api";
+import { useState } from "react";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -10,6 +16,12 @@ import { useNavigate } from "react-router-dom";
 import { dataLost } from "../data/data";
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { v4 as uuidv4 } from "uuid";
+import usePlacesAutocomplete, {
+  getGeocode,
+  getLatLng,
+} from "use-places-autocomplete";
+
 function Hi() {
   return console.log("Hi");
 }
@@ -28,6 +40,7 @@ function AnimalItem(props) {
     desc,
     lostdesc,
     lineID,
+    comment_help,
   } = props;
   console.log(id);
   let navigate = useNavigate();
@@ -92,6 +105,7 @@ function AnimalItem(props) {
                 desc: desc,
                 lostdesc: lostdesc,
                 lineID: lineID,
+                commentH: comment_help,
               },
             });
           }}
@@ -102,6 +116,66 @@ function AnimalItem(props) {
     </div>
   );
 }
+
+function Map() {
+  const center = { lat: 44, lng: -80 };
+  const [selected, setSelected] = useState(null);
+
+  return (
+    <>
+      <div className="place-container">
+        <PlacesAutocomplete setSelected={setSelected} />
+      </div>
+      <GoogleMap
+        zoom={10}
+        center={center}
+        mapContainerClassName="contrainer-map"
+      >
+        {/* <MarkerF position={center} /> */}
+        {selected && <MarkerF position={selected} />}
+      </GoogleMap>
+    </>
+  );
+}
+
+const PlacesAutocomplete = ({ setSelected }) => {
+  const {
+    ready,
+    value,
+    setValue,
+    suggestions: { status, data },
+    clearSuggestions,
+  } = usePlacesAutocomplete();
+
+  const handleSelect = async (address) => {
+    setValue(address, false);
+    clearSuggestions();
+
+    const results = await getGeocode({ address });
+    const { lat, lng } = await getLatLng(results[0]);
+    setSelected({ lat, lng });
+    console.log(address)
+  };
+
+  return (
+    <>
+      <input
+        type="text"
+        placeholder="Ex. หมามะพร้าว"
+        onChange={(e) => setValue(e.target.value)}
+        style={{
+          width: "50%",
+          height: "40px",
+          borderRadius: "20px",
+          padding: "2%",
+        }}
+      />
+      <button onClick={handleSelect}>
+        search
+      </button>
+    </>
+  );
+};
 
 function Lostpage() {
   let box = dataLost();
@@ -130,13 +204,18 @@ function Lostpage() {
       desc: desc,
       lostdesc: lostdesc,
       lineID: line,
+      comment_help: [],
     });
     handleClose();
   };
   // const ani_mock = [{ani_id:'1', ani_name:'ไอโบ้', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
   // {ani_id:'2', ani_name:'ไอโบ้2', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'},
   // {ani_id:'3', ani_name:'ไอโบ้3', ani_type:'หมาไทย', tel:'0811111111', dateloss:'16/04/2023'}]
-
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: "AIzaSyBq4bTmnk639n0aFAsqZyNjh5MEVffRWXs",
+    libraries: ["places"],
+  });
+  if (!isLoaded) return <div>Loading . . .</div>;
   return (
     <div className="contrainer">
       <div className="header-page">
@@ -316,6 +395,12 @@ function Lostpage() {
                           padding: "2%",
                         }}
                       />
+                    </div>
+                    <div style={{ marginBottom: "2%" }}>
+                      <h3 style={{ margin: "0", marginLeft: "2%" }}>
+                        สถานที่หายไป
+                      </h3>
+                      <Map />
                     </div>
                   </div>
                 </form>
