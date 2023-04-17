@@ -64,9 +64,7 @@ function Lostdetail(props) {
     googleMapsApiKey: "AIzaSyBq4bTmnk639n0aFAsqZyNjh5MEVffRWXs",
   });
   if (!isLoaded) return <div>Loading . . .</div>;
-  // const hint_mock = [
-  //   {id_hint:'1', create_hint_name:'GamePoro', datetime:'16/0402023 22.20', hint_des:'อาจจะอยู่ที่เเถวสวน'},
-  //   {id_hint:'2', create_hint_name:'GamePoro', datetime:'16/0402023 22.20', hint_des:'อาจจะอยู่ที่เเถวสวนหน้าซอย'}]
+
   return (
     <div className="contrainer">
       <div className="header-name">
