@@ -440,7 +440,7 @@ function Lostpage() {
                         ชื่อเจ้าของ/ผู้ที่แจ้ง
                       </h3>
                       <textarea
-                        placeholder="Ex.หายตอนไหน เเล้วตอนหลุดน้องมีอาการเป็นอย่างไร"
+                        placeholder="Ex. เกม"
                         onChange={(e) => setOwner(e.target.value)}
                         rows={2}
                         style={{
@@ -485,7 +485,7 @@ function Lostpage() {
                         Facebook
                       </h3>
                       <textarea
-                        placeholder="Ex.หายตอนไหน เเล้วตอนหลุดน้องมีอาการเป็นอย่างไร"
+                        placeholder="Ex.GamePoro"
                         onChange={(e) => setFace(e.target.value)}
                         rows={2}
                         style={{
@@ -497,7 +497,7 @@ function Lostpage() {
                     </div>
                     <div style={{ marginBottom: "2%" }}>
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>
-                        รูปกลุ่ม
+                        รูปน้อง/สัตว์เลี้ยง
                       </h3>
                       <input
                         type="file"
