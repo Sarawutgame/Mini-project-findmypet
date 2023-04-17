@@ -10,7 +10,7 @@ import Fade from '@mui/material/Fade';
 
 import SearchIcon from '@mui/icons-material/Search';
 import {data} from "../data/data";
-import {doc, setDoc, updateDoc} from "firebase/firestore"
+import {addDoc, collection, doc, setDoc, updateDoc} from "firebase/firestore"
 import { db } from '../firebase'
 
 function UserComment(props){
@@ -33,25 +33,25 @@ function UserComment(props){
 }
 
 function PostItem(props){
+    let box = data();
     const {id, timestemp, postdes, name_createpost} = props;
     console.log(id, ' ', timestemp)
 
     const [open, setOpen] = React.useState(false);
-    function handleOpen() {setOpen(true)};
+    const handleOpen = () => setOpen(true);
     function handleClose() {setOpen(false)};
     const [comment, setComment] = React.useState("")
     
-    const mock_comment=[
-        {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
-        {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
-    ]
+    // const mock_comment=[
+    //     {id_comment:'1', timestemp:'15/04/2023 16.30', comment_des:'Meow Comment', name_create:'KongATC'},
+    //     {id_comment:'2', timestemp:'15/04/2023 16.50', comment_des:'MeowMeow', name_create:'KongATC'}
+    // ]
 
     const submitform = async () => {
-        await updateDoc(doc(db, "mypet", "PhSEAJ2b6ne9K62cnBan"), {
+        await updateDoc(doc(db, "mypet", id), {
             timestemp:'15/04/2023 16.30',
             comment_des: comment,
-            name_create: "USA",
-            test:'aaa'
+            name_create: name_createpost,
 
           });
         handleClose()
@@ -96,8 +96,8 @@ function PostItem(props){
                             <hr className='line2'/>
                         </div>
                         <div className='comment-box'>
-                        {mock_comment.map((el_item)=>{
-                            return <UserComment {...el_item} key={el_item.id_comment}/>
+                        {box.map((el_item)=>{
+                            return <UserComment {...el_item} key={el_item.id}/>
                         })}
                         </div>
                         
@@ -128,9 +128,22 @@ function Group() {
     console.log(box)
     console.log("aaa")
     const [open2, setOpen2] = React.useState(false);
-    const handleOpen2 = () => setOpen2(true);
-    const handleClose2 = () => setOpen2(false);
+    // const handleOpen2 = () => setOpen2(true);
+    function handleOpen2() {setOpen2(true)};
+    function handleClose2() {setOpen2(false)};
 
+    const [postDesc, setPostDesc] = React.useState("")
+
+    const createPost =  () => {
+        addDoc(collection(db, "mypet"), {
+            timestemp:'15/04/2023 16.30',
+            postdes: postDesc,
+            name_createpost: "KongATC",
+
+          });
+          handleClose2()
+        
+    }
 
     const mock_post=[
         {id_post:'1', timestemp:'15/04/2023 16.14', postdes:'Meow ดิ้นๆ', name_createpost:'KongATC'},
@@ -186,11 +199,11 @@ function Group() {
                             </div>
                             <div style={{marginBottom:'2%'}}>
                                 <h3 style={{margin:'0', marginLeft:'2%'}}>รายระเอียดโฟส</h3>
-                                <textarea placeholder="พิมพ์ได้เลย" rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
+                                <textarea placeholder="พิมพ์ได้เลย" onChange={(e) => setPostDesc(e.target.value)} rows={3} style={{width:'90%', borderRadius:'20px',padding:'2%'}}/>
                             </div>
                         </form>
                         <div className='button-con2'>
-                            <button className='button-summit-newpost' onClick={handleClose2}>
+                            <button className='button-summit-newpost' onClick={createPost}>
                                 <h2 style={{margin: 0, fontWeight:300, color:'white'}}>New Post</h2>
                             </button>
                         </div>

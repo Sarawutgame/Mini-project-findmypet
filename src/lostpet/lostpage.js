@@ -6,6 +6,7 @@ import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
+import { useNavigate } from 'react-router-dom';
 
 function Hi(){
     return(console.log('Hi'));
@@ -17,6 +18,7 @@ function Hi(){
 function AnimalItem(props){
     const {ani_id, ani_name, ani_type, tel, dateloss} = props;
     console.log(ani_id);
+    let navigate = useNavigate();
     return(
         <div className='card-ani'>
             <div className='box-img'>
@@ -30,7 +32,7 @@ function AnimalItem(props){
             </div>
            
             <div className='button-contrainer'>
-                <button className='link-button' onClick={Hi}><h4 style={{margin:'0', color:'white'}}>เพิ่มเติม...</h4></button>
+                <button className='link-button' onClick={() => {navigate("/detail")}}><h4 style={{margin:'0', color:'white'}}>เพิ่มเติม...</h4></button>
             </div>
         </div>
     );
