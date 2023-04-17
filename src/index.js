@@ -10,9 +10,9 @@ import GroupPage from './grouppost/listgroup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* <App /> */}
-    <GroupPage/>
+  <>
+    <App />
+    {/* <GroupPage/> */}
     {/* <Group/> */}
   </>
 );

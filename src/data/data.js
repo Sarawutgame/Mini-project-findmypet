@@ -46,3 +46,21 @@ export const dataLost = () => {
     // console.log("daw",pet)
   return pet;
 };
+
+export const datagroup = () => {
+    const [pet, setPet] = useState([]);
+    const [post, setPost] = useState([]);
+
+
+    useEffect(() =>{
+        const colRef = collection(db, "grouppet")
+
+        
+        onSnapshot(colRef, (snapshot) => 
+            setPet(snapshot.docs.map(doc => ({...doc.data(), id:doc.id})))
+        )
+        
+    },[]);
+    // console.log("daw",pet)
+  return pet;
+};

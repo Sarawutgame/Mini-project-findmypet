@@ -151,7 +151,7 @@ body{
 
 .place-container{
     position: relative;
-    /* top: 100px; */
+    
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
@@ -161,6 +161,6 @@ body{
 .contrainer-map{
     width: 90%;
     height: 400px;
-    /* background-color: rgb(255, 221, 221); */
+    
     margin-left: 5%;
 }

@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import SearchIcon from '@mui/icons-material/Search';
-
+import { datagroup } from '../data/data';
 
 function CardGroup(props){
     const {id, name_group, descript, name_create} = props;

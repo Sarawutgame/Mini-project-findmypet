@@ -6,7 +6,7 @@ import {
   Marker,
   MarkerF,
 } from "@react-google-maps/api";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import * as React from "react";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -17,12 +17,106 @@ import { dataLost } from "../data/data";
 import { addDoc, collection, doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
+import useOnclickOutside from "react-cool-onclickoutside";
+
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
+import { ReactDOM } from "react";
 
+// const UserContext = createContext();
 
+// const Map = () => {
+//   const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
+//   const [selected, setSelected] = useState(null);
+
+//   return (
+//     <>
+//       <div className="place-container">
+//         <PlacesAutocomplete setSelected={setSelected} />
+//       </div>
+//       <GoogleMap
+//         zoom={10}
+//         center={selected ? selected : center}
+//         mapContainerClassName="contrainer-map"
+//       >
+//         {/* <MarkerF position={center} /> */}
+//         {selected && <MarkerF position={selected} />}
+//       </GoogleMap>
+//     </>
+//   );
+// };
+
+const PlacesAutocomplete = ({ setSelected }) => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      /* Define search scope here */
+    },
+    debounce: 300,
+  });
+  const ref = useOnclickOutside(() => {
+    // When user clicks outside of the component, we can dismiss
+    // the searched suggestions by calling this method
+    clearSuggestions();
+  });
+
+  const handleInput = (e) => {
+    // Update the keyword of the input element
+    setValue(e.target.value);
+  };
+
+  const handleSelect = ({ description }) => () => {
+    // When user selects a place, we can replace the keyword without request data from API
+    // by setting the second parameter to "false"
+    setValue(description, false);
+    clearSuggestions();
+
+    // Get latitude and longitude via utility functions
+    getGeocode({ address: description }).then((results) => {
+      const { lat, lng } = getLatLng(results[0]);
+      setSelected({ lat, lng });
+      console.log("📍 Coordinates: ", { lat, lng });
+    });
+  };
+
+  const renderSuggestions = () =>
+    data.map((suggestion) => {
+      const {
+        place_id,
+        structured_formatting: { main_text, secondary_text },
+      } = suggestion;
+
+      return (
+        <li
+          style={{ width: "100%" }}
+          key={place_id}
+          onClick={handleSelect(suggestion)}
+        >
+          <strong>{main_text}</strong> <small>{secondary_text}</small>
+        </li>
+      );
+    });
+
+  return (
+    <div ref={ref}>
+      <input
+        value={value}
+        onChange={handleInput}
+        disabled={!ready}
+        placeholder="Where are you going?"
+      />
+      {/* We can use the "status" to decide whether we should display the dropdown or not */}
+      {status === "OK" && <ul>{renderSuggestions()}</ul>}
+    </div>
+  );
+};
 
 function Hi() {
   return console.log("Hi");
@@ -43,6 +137,7 @@ function AnimalItem(props) {
     lostdesc,
     lineID,
     comment_help,
+    position
   } = props;
   console.log(id);
   let navigate = useNavigate();
@@ -108,6 +203,7 @@ function AnimalItem(props) {
                 lostdesc: lostdesc,
                 lineID: lineID,
                 commentH: comment_help,
+                position:position
               },
             });
           }}
@@ -119,66 +215,6 @@ function AnimalItem(props) {
   );
 }
 
-function Map() {
-  const center = { lat: 44, lng: -80 };
-  const [selected, setSelected] = useState(null);
-
-  return (
-    <>
-      <div className="place-container">
-        <PlacesAutocomplete setSelected={setSelected} />
-      </div>
-      <GoogleMap
-        zoom={10}
-        center={center}
-        mapContainerClassName="contrainer-map"
-      >
-        {/* <MarkerF position={center} /> */}
-        {selected && <MarkerF position={selected} />}
-      </GoogleMap>
-    </>
-  );
-}
-
-const PlacesAutocomplete = ({ setSelected }) => {
-  const {
-    ready,
-    value,
-    setValue,
-    suggestions: { status, data },
-    clearSuggestions,
-  } = usePlacesAutocomplete();
-
-  const handleSelect = async (address) => {
-    setValue(address, false);
-    clearSuggestions();
-
-    const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
-    setSelected({ lat, lng });
-    console.log(address)
-  };
-
-  return (
-    <>
-      <input
-        type="text"
-        placeholder="Ex. หมามะพร้าว"
-        onChange={(e) => setValue(e.target.value)}
-        style={{
-          width: "50%",
-          height: "40px",
-          borderRadius: "20px",
-          padding: "2%",
-        }}
-      />
-      <button onClick={handleSelect}>
-        search
-      </button>
-    </>
-  );
-};
-
 function Lostpage() {
   let box = dataLost();
   const [open, setOpen] = React.useState(false);
@@ -186,6 +222,9 @@ function Lostpage() {
   function handleClose() {
     setOpen(false);
   }
+  const center = useMemo(() => ({ lat: 44, lng: -80 }), []);
+  const [selected, setSelected] = useState(null);
+
 
   const [name, setName] = React.useState("");
   const [type, setType] = React.useState("");
@@ -207,6 +246,8 @@ function Lostpage() {
       lostdesc: lostdesc,
       lineID: line,
       comment_help: [],
+      position:selected,
+      //   lng:selected,
     });
     handleClose();
   };
@@ -402,7 +443,19 @@ function Lostpage() {
                       <h3 style={{ margin: "0", marginLeft: "2%" }}>
                         สถานที่หายไป
                       </h3>
-                      <Map />
+                      <div>
+                        <div className="place-container">
+                          <PlacesAutocomplete setSelected={setSelected} />
+                        </div>
+                        <GoogleMap
+                          zoom={10}
+                          center={selected ? selected : center}
+                          mapContainerClassName="contrainer-map"
+                        >
+                          {/* <MarkerF position={center} /> */}
+                          {selected && <MarkerF position={selected} />}
+                        </GoogleMap>
+                      </div>
                     </div>
                   </div>
                 </form>

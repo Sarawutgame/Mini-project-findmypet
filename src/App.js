@@ -5,6 +5,7 @@ import React, { Component }  from 'react';
 import Home from './pages/Home';
 import Lostdetail from './lostpet/lostdetail';
 import Lostpage from './lostpet/lostpage'
+import Listgroup from './grouppost/listgroup'
 import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
 import catpro from './photo-1611915387288-fd8d2f5f928b.jpg'
 
@@ -18,8 +19,8 @@ function App() {
 
             <div style={{display:'flex', alignItems:'center'}}>
                 <NavLink end to="/" style={{textDecoration:'none'}}><h3 className='nav-button'>Home</h3></NavLink>
-                <NavLink to="/group" style={{textDecoration:'none'}}><h3 className='nav-button'>น้องหาย</h3></NavLink>
-                <NavLink to="/detail" style={{textDecoration:'none'}}><h3 className='nav-button'>detail</h3></NavLink>
+                <NavLink to="/post" style={{textDecoration:'none'}}><h3 className='nav-button'>น้องหาย</h3></NavLink>
+                <NavLink to="/group" style={{textDecoration:'none'}}><h3 className='nav-button'>Group</h3></NavLink>
             </div>
 
             <div className='user-profile-contrainer'>
@@ -32,8 +33,8 @@ function App() {
         </div>
       <Routes>
         <Route path="/" element={<Lostpage />}/>
-        <Route path="/group" element={<Group />}/>
-        <Route path="/detail" element={<Lostdetail />}/>
+        <Route path="/post" element={<Group />}/>
+        <Route path="/group" element={<Listgroup />}/>
       </Routes>
     </Router>
   );
